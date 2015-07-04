@@ -10,6 +10,7 @@ public class Lottery {
 	
 	private int counterNumber=0;
 	private int needToDraw;
+	private int alreadyDrawn;
 	
 	// IO io = new IO();
 	
@@ -24,8 +25,6 @@ public class Lottery {
 		
 		Player newPlayer = new Player();
 		newPlayer=io.playerInput();
-		System.out.println(newPlayer.getFirstName());
-		System.out.println(newPlayer.getLastName());
 		newPlayer.setTicket(io.ticketInput());
 		players.add(newPlayer);
 		needToDraw=1;
@@ -33,17 +32,24 @@ public class Lottery {
 	}
 	
 	public void lotteryDrawing(){
-		Iterator<Player> it= players.iterator();
-		if(it.hasNext()==true){
-			RandomNumber ran = new RandomNumber();
-			random=ran.drawNumbers();
-			for (int i=1;i<7;i++){
-				System.out.println("Drawn number "+i+": "+random[i-1]);
-			needToDraw=0;
+		if(alreadyDrawn==0){
+			Iterator<Player> it= players.iterator();
+			if(it.hasNext()==true){
+				RandomNumber ran = new RandomNumber();
+				random=ran.drawNumbers();
+				for (int i=1;i<7;i++){
+					System.out.println("Drawn number "+i+": "+random[i-1]);
+				needToDraw=0;
+				alreadyDrawn=1;
+				}
+			}else {
+				
+				System.out.println("Please enter Tickets first.");
+				
 			}
-		}else {
+		}else{
 			
-			System.out.println("Please enter Tickets first.");
+			System.out.println("Please Show Results.");
 			
 		}
 	}
@@ -56,6 +62,9 @@ public class Lottery {
 				for (int i=1;i<7;i++){
 					System.out.println("Drawn number "+i+": "+random[i-1]);
 				}
+				
+			
+				
 				while(it.hasNext()){
 					Player abc = it.next();
 					
@@ -64,8 +73,8 @@ public class Lottery {
 						System.out.println("Number "+ (i+1) +": "+abc.getTicket().getNumber(i));
 						
 						for(int z =0; z<6;z++){
-							if(random[i]==abc.getTicket().getNumber(z)){
-								
+							if(random[z]==abc.getTicket().getNumber(i)){
+								System.out.println("Correct!");
 								counterNumber++;
 							}
 						}
@@ -75,6 +84,8 @@ public class Lottery {
 		
 					System.out.println(abc.getFirstName()+" "+abc.getLastName()+" has "+counterNumber+" right number(s).\n");
 					counterNumber=0;
+					alreadyDrawn=0;
+					
 					
 					
 				}
